@@ -162,24 +162,25 @@
             return result;
         }
 
-        function updateIgnoreSpaceCheckbox() {
+        function updateCheckboxStates() {
             const ignoreSpaceCheckbox = document.getElementById('ignoreSpace');
-            const useHyphenCheckbox = document.getElementById('useHyphen');
             const shuffleWithinWordCheckbox = document.getElementById('shuffleWithinWord');
+            const keepStartEndCheckbox = document.getElementById('keepStartEnd');
 
-            if (useHyphenCheckbox.checked && shuffleWithinWordCheckbox.checked) {
-                ignoreSpaceCheckbox.checked = true;
-                ignoreSpaceCheckbox.disabled = true;
-            } else if (shuffleWithinWordCheckbox.checked) {
+            if (keepStartEndCheckbox.checked) {
+                shuffleWithinWordCheckbox.checked = true;
+                shuffleWithinWordCheckbox.disabled = true;
                 ignoreSpaceCheckbox.checked = false;
                 ignoreSpaceCheckbox.disabled = true;
             } else {
+                shuffleWithinWordCheckbox.disabled = false;
                 ignoreSpaceCheckbox.disabled = false;
             }
         }
 
-        document.getElementById('shuffleWithinWord').addEventListener('change', updateIgnoreSpaceCheckbox);
-        document.getElementById('useHyphen').addEventListener('change', updateIgnoreSpaceCheckbox);
+        document.getElementById('keepStartEnd').addEventListener('change', updateCheckboxStates);
+        document.getElementById('shuffleWithinWord').addEventListener('change', updateCheckboxStates);
+        document.getElementById('useHyphen').addEventListener('change', updateCheckboxStates);
 
         document.getElementById('shuffleBtn').addEventListener('click', () => {
             let word = document.getElementById('wordInput').value;
@@ -229,6 +230,7 @@
             const result = document.getElementById('resultOutput');
             result.select();
             document.execCommand('copy');
+            document.getElementById('wordInput').value = '';
         });
 
         document.getElementById('pasteBtn').addEventListener('click', async () => {
