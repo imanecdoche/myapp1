@@ -127,14 +127,14 @@
             let startWithVowel = Math.random() > 0.5;
             for (let i = 0; i < maxLength; i++) {
                 if (startWithVowel) {
-                    if (vowelsArr[i]) result += vowelsArr[i] + '-';
-                    if (consonants[i]) result += consonants[i] + '-';
+                    if (vowelsArr[i]) result += vowelsArr[i];
+                    if (consonants[i]) result += consonants[i];
                 } else {
-                    if (consonants[i]) result += consonants[i] + '-';
-                    if (vowelsArr[i]) result += vowelsArr[i] + '-';
+                    if (consonants[i]) result += consonants[i];
+                    if (vowelsArr[i]) result += vowelsArr[i];
                 }
             }
-            return result.slice(0, -1); // Remove the trailing "-"
+            return result;
         }
 
         function hangman(word) {
