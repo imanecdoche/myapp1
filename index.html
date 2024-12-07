@@ -58,6 +58,38 @@
             background-color: #FF2B6E;
             color: #fff;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 font-montserrat">
@@ -119,6 +151,18 @@
                     <i class="fas fa-hand-holding-heart mr-2"></i> Trakteer.id
                 </a>
             </div>
+            <div class="mt-4">
+                <button id="feedbackBtn" class="btn-green px-4 py-2 rounded-lg">SEND FEEDBACK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Send Feedback</h2>
+            <textarea id="feedbackMessage" class="w-full p-2 border border-gray-300 rounded-lg mb-4" rows="5" placeholder="Write your feedback here..."></textarea>
+            <button id="sendFeedbackBtn" class="btn-green px-4 py-2 rounded-lg">SEND</button>
         </div>
     </div>
 
@@ -263,6 +307,33 @@
                 themeIcon.classList.add('fa-sun');
             }
         });
+
+        // Feedback Modal
+        const feedbackModal = document.getElementById('feedbackModal');
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        const sendFeedbackBtn = document.getElementById('sendFeedbackBtn');
+
+        feedbackBtn.onclick = function() {
+            feedbackModal.style.display = 'block';
+        }
+
+        closeBtn.onclick = function() {
+            feedbackModal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == feedbackModal) {
+                feedbackModal.style.display = 'none';
+            }
+        }
+
+        sendFeedbackBtn.onclick = function() {
+            const feedbackMessage = document.getElementById('feedbackMessage').value;
+            const mailtoLink = `mailto:kazokuhairy@gmail.com?subject=Feedback&body=${encodeURIComponent(feedbackMessage)}`;
+            window.location.href = mailtoLink;
+            feedbackModal.style.display = 'none';
+        }
     </script>
 </body>
 </html>
