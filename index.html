@@ -71,10 +71,11 @@
                     <input type="checkbox" id="shuffleWithinWord" class="checkbox-green">
                     <span class="ml-2 text-gray-700">Shuffle within each word</span>
                 </label>
-            </div>
-            <div class="mb-4">
-                <label for="seedSlider" class="block text-gray-700 font-bold mb-2">Seed (Randomness Level):</label>
-                <input type="range" id="seedSlider" min="1" max="100" value="50" class="w-full">
+                <br>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" id="keepStartEnd" class="checkbox-green">
+                    <span class="ml-2 text-gray-700">Keep start-end</span>
+                </label>
             </div>
             <div class="flex justify-center space-x-4 mb-4">
                 <button id="shuffleBtn" class="btn-green px-4 py-2 rounded-lg">Shuffle</button>
@@ -110,16 +111,13 @@
     <script>
         const vowels = 'aeiouAEIOU';
 
-        function shuffleWord(word, seed) {
-            const arr = word.split('');
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(seed * (i + 1) / 100);
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr.join('');
+        function shuffleWord(word) {
+            if (word.length <= 1) return word;
+            let middle = word.slice(1, -1).split('').sort(() => Math.random() - 0.5).join('');
+            return word[0] + middle + word[word.length - 1];
         }
 
-        function shuffleCV(word, seed) {
+        function shuffleCV(word) {
             let consonants = [];
             let vowelsArr = [];
             for (let char of word) {
@@ -185,13 +183,14 @@
 
         document.getElementById('shuffleBtn').addEventListener('click', () => {
             let word = document.getElementById('wordInput').value;
-            const seed = document.getElementById('seedSlider').value;
             if (document.getElementById('ignoreSpace').checked) {
                 word = word.replace(/\s+/g, '');
             }
-            let shuffledWord = shuffleWord(word, seed);
-            if (document.getElementById('shuffleWithinWord').checked) {
-                shuffledWord = word.split(' ').map(w => shuffleWord(w, seed)).join(' ');
+            let shuffledWord;
+            if (document.getElementById('keepStartEnd').checked) {
+                shuffledWord = word.split(' ').map(w => shuffleWord(w)).join(' ');
+            } else {
+                shuffledWord = word.split('').sort(() => Math.random() - 0.5).join('');
             }
             shuffledWord = applyCheckboxOptions(shuffledWord);
             document.getElementById('resultOutput').value = shuffledWord;
@@ -199,13 +198,12 @@
 
         document.getElementById('shuffleCVBtn').addEventListener('click', () => {
             let word = document.getElementById('wordInput').value;
-            const seed = document.getElementById('seedSlider').value;
             if (document.getElementById('ignoreSpace').checked) {
                 word = word.replace(/\s+/g, '');
             }
-            let shuffledWord = shuffleCV(word, seed);
+            let shuffledWord = shuffleCV(word);
             if (document.getElementById('shuffleWithinWord').checked) {
-                shuffledWord = word.split(' ').map(w => shuffleCV(w, seed)).join(' ');
+                shuffledWord = word.split(' ').map(w => shuffleCV(w)).join(' ');
             }
             shuffledWord = applyCheckboxOptions(shuffledWord);
             document.getElementById('resultOutput').value = shuffledWord;
