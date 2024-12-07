@@ -60,30 +60,35 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 font-montserrat">
+<body class="bg-gray-100 dark:bg-gray-900 font-montserrat">
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-6">Word Shuffler</h1>
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+        <div class="flex justify-end mb-4">
+            <button id="themeToggle" class="btn-green px-4 py-2 rounded-lg">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">Word Shuffler</h1>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
             <div class="mb-4 flex flex-col md:flex-row items-center">
-                <input type="text" id="wordInput" class="w-full p-2 border border-gray-300 rounded-lg text-center uppercase mb-2 md:mb-0 md:mr-2" placeholder="TYPE YOUR WORD HERE">
+                <input type="text" id="wordInput" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg text-center uppercase mb-2 md:mb-0 md:mr-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100" placeholder="TYPE YOUR WORD HERE">
                 <button id="pasteBtn" class="btn-green px-4 py-2 rounded-lg">Paste</button>
             </div>
             <div class="mb-4 text-left flex flex-col space-y-2">
                 <label class="inline-flex items-center">
                     <input type="checkbox" id="useHyphen" class="checkbox-green">
-                    <span class="ml-2 text-gray-700">Use hyphen (-) to separate letters</span>
+                    <span class="ml-2 text-gray-700 dark:text-gray-300">Use hyphen (-) to separate letters</span>
                 </label>
                 <label class="inline-flex items-center">
                     <input type="checkbox" id="ignoreSpace" class="checkbox-green">
-                    <span class="ml-2 text-gray-700">Ignore SPACE</span>
+                    <span class="ml-2 text-gray-700 dark:text-gray-300">Ignore SPACE</span>
                 </label>
                 <label class="inline-flex items-center">
                     <input type="checkbox" id="shuffleWithinWord" class="checkbox-green">
-                    <span class="ml-2 text-gray-700">Shuffle within each word</span>
+                    <span class="ml-2 text-gray-700 dark:text-gray-300">Shuffle within each word</span>
                 </label>
                 <label class="inline-flex items-center">
                     <input type="checkbox" id="keepStartEnd" class="checkbox-green">
-                    <span class="ml-2 text-gray-700">Keep start-end</span>
+                    <span class="ml-2 text-gray-700 dark:text-gray-300">Keep start-end</span>
                 </label>
             </div>
             <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 md:space-x-4 mb-4">
@@ -93,16 +98,16 @@
                 <button id="removeVowelsBtn" class="btn-green px-4 py-2 rounded-lg">Remove Vowels</button>
             </div>
             <div class="mb-4">
-                <label for="resultOutput" class="block text-gray-700 font-bold mb-2">Shuffled result:</label>
-                <input type="text" id="resultOutput" class="w-full p-2 border border-gray-300 rounded-lg text-center uppercase font-bold text-blue-500" readonly>
+                <label for="resultOutput" class="block text-gray-700 dark:text-gray-300 font-bold mb-2">Shuffled result:</label>
+                <input type="text" id="resultOutput" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg text-center uppercase font-bold text-blue-500 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100" readonly>
             </div>
             <div class="flex justify-center">
                 <button id="copyBtn" class="btn-green px-4 py-2 rounded-lg">Copy</button>
             </div>
         </div>
         <div class="text-center mt-6">
-            <p class="text-gray-700">Developed by Fatih F. Asshiddiq (Imanecdoche)</p>
-            <p class="text-gray-500">Version 1.0.0</p>
+            <p class="text-gray-700 dark:text-gray-300">Developed by Fatih F. Asshiddiq (Imanecdoche)</p>
+            <p class="text-gray-500 dark:text-gray-400">Version 1.0.0</p>
             <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 md:space-x-4 mt-4">
                 <a href="https://buymeacoffee.com/imanecdoche" class="btn-coffee px-4 py-2 rounded-lg flex items-center justify-center">
                     <i class="fas fa-coffee mr-2"></i> Buy me a coffee
@@ -245,6 +250,18 @@
         document.getElementById('pasteBtn').addEventListener('click', async () => {
             const text = await navigator.clipboard.readText();
             document.getElementById('wordInput').value = text;
+        });
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const themeIcon = document.getElementById('themeToggle').querySelector('i');
+            if (document.documentElement.classList.contains('dark')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
         });
     </script>
 </body>
